@@ -1,23 +1,15 @@
 CC=gcc
-CFLAGS=-Wall -I.
-POSIXFLAGS=-D POSIX
-OBJS=main.o src/link-set.o
-POSIXOBJS=platform/posix.o
-DEPS= main.h src/link-set.h src/route-set.h platform/platform.h src/constants.h
-POSIXDEPS=platform/posix.h
+CFLAGS=-Wall -I. -D POSIX
 
-default: main
+POSIXOBJS=main.o src/link-set.o platform/posix.o
 
-%.o: %.c $(DEPS)
-	$(CC) -o $@ -c $< $(CFLAGS)
+POSIXDEPS=platform/posix.h src/link-set.h src/route-set.h platform/platform.h src/constants.h
 
-main: $(OBJS)
-	$(CC) $(OBJS) -o $@
 
-posix: $(OBJS) $(POSIXOBJS)
-	$(CC) $(POSIXFLAGS) $(CFLAGS) $(OBJS) -o $@
+posix: $(POSIXOBJS)
+	$(CC) $(CFLAGS) $(POSIXDEPS) -o $@
 
 
 clean:
-	-rm -f $(OBJS)
-	-rm -f main
+	-rm -f $(POSIXOBJS)
+	-rm -f posix

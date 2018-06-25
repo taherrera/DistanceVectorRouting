@@ -1,4 +1,8 @@
 #ifdef POSIX
+#ifndef PLATFORM_H
+
+#define PLATFORM_H
+
 
 #include <stdio.h>
 #include <stdint.h>
@@ -13,4 +17,4 @@
 #include <netinet/in.h>
 
 #endif
-
+#endif
