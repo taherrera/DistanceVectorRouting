@@ -13,7 +13,7 @@ int main()
 {
 
 // listen to channel CHANNEL
-radiolisten(CHANNEL);	
+//radiolisten(CHANNEL);	
 
 
 
