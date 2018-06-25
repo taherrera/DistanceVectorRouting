@@ -1,6 +1,6 @@
 
-#ifndef POSIX_H
-#define POSIX_H
+#ifndef POSIX_H_
+#define POSIX_H_
 
 #include "platform.h"
 

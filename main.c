@@ -3,6 +3,10 @@
 #include "src/link-set.h"
 #include "src/route-set.h"
 
+#ifdef POSIX
+#include "platform/posix.h"
+#endif
+ 
 #define CHANNEL 26
 
 int main()
