@@ -5,7 +5,7 @@
 #include "../src/route-set.h"
 
 
-void initRouter(uint16_t routerID, uint16_t RouterIDs[],RouterList *aRouterList);
+void initRouter(uint16_t myRouterID, uint16_t RouterIDs[],RouterList *aRouterList);
 
 
 #endif
