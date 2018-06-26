@@ -34,14 +34,14 @@
 */
 
 
-#define ROUTERID_1 0x0001
-#define ROUTERID_2 0x0002
-#define ROUTERID_3 0x0003
-#define ROUTERID_4 0x0004
-#define ROUTERID_5 0x0005
-#define ROUTERID_6 0x0006
+#define ROUTERID_1 1
+#define ROUTERID_2 2
+#define ROUTERID_3 3
+#define ROUTERID_4 4
+#define ROUTERID_5 5
+#define ROUTERID_6 6
 
-#define ROUTERLIST {ROUTERID_1, ROUTERID_2, ROUTERID_3, ROUTERID_4, ROUTERID_5, ROUTERID_6}
+
 
 /*
 *
@@ -49,7 +49,7 @@
 *
 */
 
-#define MAXROUTERS 6;
+#define MAXROUTERS 6
 
 
 #endif

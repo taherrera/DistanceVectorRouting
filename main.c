@@ -15,8 +15,10 @@ int main()
 {
 
 // Init the router set
+
 RouterList mRouterList;
-initRouterList(ROUTERLIST[N], ROUTERLIST, mRouterList);
+const uint16_t ROUTERLIST[] = {ROUTERID_1, ROUTERID_2, ROUTERID_3, ROUTERID_4, ROUTERID_5, ROUTERID_6};
+initRouterList(ROUTERLIST[N], ROUTERLIST , &mRouterList);
 
 
 // listen to channel CHANNEL
