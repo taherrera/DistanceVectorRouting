@@ -41,7 +41,15 @@
 #define ROUTERID_5 0x0005
 #define ROUTERID_6 0x0006
 
+#define ROUTERLIST {ROUTERID_1, ROUTERID_2, ROUTERID_3, ROUTERID_4, ROUTERID_5, ROUTERID_6}
 
+/*
+*
+*  Mesh Constants
+*
+*/
+
+#define MAXROUTERS 6;
 
 
 #endif

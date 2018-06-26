@@ -4,15 +4,20 @@
 #include "src/route-set.h"
 #include "src/init.h"
 
-
 #ifdef POSIX
 #include "platform/posix.h"
 #endif
  
 #define CHANNEL 26
+#define N 0
 
 int main()
 {
+
+// Init the router set
+RouterList mRouterList;
+initRouterList(ROUTERLIST[N], ROUTERLIST, mRouterList);
+
 
 // listen to channel CHANNEL
 //radiolisten(CHANNEL);	

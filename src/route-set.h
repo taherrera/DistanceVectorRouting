@@ -6,13 +6,18 @@
 
 typedef struct
 {
-	uint8_t mRouterID;
-	uint8_t mNextHop;
+	uint16_t mRouterID;
+	uint16_t mNextHop;
 	uint16_t mRouteCost;
 
 } Router;
 
 
+typedef struct
+{
+	Router mRouterList[MAXROUTERS];
+
+} RouterList;
 
 
 #endif
