@@ -29,12 +29,18 @@
 
 /*
 *
-*  Router IDs
+*  Router IDs (Extended 16bit MAC 802.15.4 address)
 *
 */
 
 
-#define ROUTER_1 
+#define ROUTERID_1 0x0001
+#define ROUTERID_2 0x0002
+#define ROUTERID_3 0x0003
+#define ROUTERID_4 0x0004
+#define ROUTERID_5 0x0005
+#define ROUTERID_6 0x0006
+
 
 
 

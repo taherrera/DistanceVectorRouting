@@ -2,6 +2,8 @@
 #include "platform/platform.h"
 #include "src/link-set.h"
 #include "src/route-set.h"
+#include "src/init.h"
+
 
 #ifdef POSIX
 #include "platform/posix.h"
