@@ -9,7 +9,7 @@
 #endif
  
 #define CHANNEL 26
-#define N 0
+#define ROUTER 0
 
 int main()
 {
@@ -17,12 +17,18 @@ int main()
 // Init the router set
 
 RouterList mRouterList;
-const uint16_t ROUTERLIST[] = {ROUTERID_1, ROUTERID_2, ROUTERID_3, ROUTERID_4, ROUTERID_5, ROUTERID_6};
-initRouterList(ROUTERLIST[N], ROUTERLIST , &mRouterList);
+const uint16_t ROUTERLIST[] = {	ROUTERID_1,\
+				ROUTERID_2,\
+				ROUTERID_3,\
+				ROUTERID_4,\
+				ROUTERID_5,\
+				ROUTERID_6};
+
+initRouterList(ROUTERLIST[ROUTER], ROUTERLIST , &mRouterList);
 
 
 // listen to channel CHANNEL
-//radiolisten(CHANNEL);	
+radiolisten(CHANNEL);	
 
 
 
