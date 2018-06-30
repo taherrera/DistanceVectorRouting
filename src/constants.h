@@ -17,6 +17,10 @@
 *
 */
 
+#define CHANNEL 26
+
+#define PERIOD 5
+
 #define db20 20
 #define db10 10
 #define db2  2
@@ -50,6 +54,16 @@
 */
 
 #define MAXROUTERS 6
+
+
+/*
+*
+*  Router identifier constant
+*
+*/
+
+#define ROUTER 0
+
 
 
 #endif

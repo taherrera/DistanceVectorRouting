@@ -3,46 +3,67 @@
 #include "posix.h"
 
 #define MAXBUFFER 1027
-#define IPV4ADDR "127.0.0.1"
+#define IPV4ADDR "239.0.0.1"
 #define PORT 1000
 
 void radiolisten(uint8_t channel)
 {
 
-    struct sockaddr_in si_me, si_other;
-     
-    int s; 
-    socklen_t slen = sizeof(si_other);
-    socklen_t recv_len;
-    char buf[MAXBUFFER];
-     
-    //create a UDP socket
-    if ((s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1)
-    {
-        perror("socket"); 
-    }
-     
-    // zero out the structure
-    memset((char *) &si_me, 0, sizeof(si_me));
-     
-    si_me.sin_family = AF_INET;
-    si_me.sin_port = htons(PORT);
-    si_me.sin_addr.s_addr = htonl(INADDR_ANY);
-     
-    //bind socket to port
-    if( bind(s , (struct sockaddr*)&si_me, sizeof(si_me) ) == -1)
-    {
-        perror("bind");
-    }
+   struct sockaddr_in addr;
+   int sock, cnt;
+   socklen_t addrlen;
+   struct ip_mreq mreq;
+   char message[50];
 
-    if ((recv_len = recvfrom(s, buf, MAXBUFFER, 0, (struct sockaddr *) &si_other, &slen)) == -1)
+   /* set up socket, DOMAIN IPV4, type datagram (connectionless, unreliable)*/
+   sock = socket(AF_INET, SOCK_DGRAM, 0);
+   if (sock < 0) {
+     perror("socket");
+     exit(1);
+   }
+   bzero((char *)&addr, sizeof(addr));
+   addr.sin_family = AF_INET;
+   addr.sin_addr.s_addr = htonl(INADDR_ANY);
+   addr.sin_port = htons(PORT);
+   addrlen = sizeof(addr);
+   printf("success");
+   if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int)) < 0)
+   {      
+	perror("setsockopt(SO_REUSEADDR) failed");
+	exit(1);
+   }
+
+   if (bind(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0)
+   {        
+         perror("bind");
+	 exit(1);
+   }
+   printf("success");
+   
+
+   mreq.imr_multiaddr.s_addr = inet_addr(IPV4ADDR);         
+   mreq.imr_interface.s_addr = htonl(INADDR_ANY);         
+   if (setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP,
+		  &mreq, sizeof(mreq)) < 0) 
+   {
+        perror("setsockopt mreq");
+        exit(1);
+   }         
+   while (1) 
+   {
+        cnt = recvfrom(sock, message, sizeof(message), 0, 
+			(struct sockaddr *) &addr, &addrlen);
+        if (cnt < 0) 
         {
-            perror("recvfrom()");
-        }
-         
-        //print details of the client/peer and the data received
-        printf("Received packet from %s:%d\n", inet_ntoa(si_other.sin_addr), ntohs(si_other.sin_port));
-        printf("Data: %s\n" , buf);
+	    perror("recvfrom");
+	    exit(1);
+	}else if (cnt == 0)
+        {
+ 	    break;
+	}
+	    printf("%s: message = \"%s\"\n", inet_ntoa(addr.sin_addr), message);
+    }
+    
 
 }
 
