@@ -15,19 +15,20 @@ int main()
 {
 
 // Init the router set
-RouterList mRouterList;
-const uint16_t ROUTERLIST[] = {	ROUTERID_1,\
+RouterSet mRouterSet;
+LinkSet mLinkSet;
+const uint16_t ROUTERSET[] = {	ROUTERID_1,\
 				ROUTERID_2,\
 				ROUTERID_3,\
 				ROUTERID_4,\
 				ROUTERID_5,\
 				ROUTERID_6};
 
-initRouterList(ROUTERLIST[ROUTER], ROUTERLIST , &mRouterList);
-
+initRouterSet(ROUTERSET[MYROUTER], ROUTERSET, &mRouterSet);
+initLinkSet(  ROUTERSET[MYROUTER], ROUTERSET, &mLinkSet  );
 
 // Broadcast every PERIOD miliseconds
-broadcastinit(PERIOD, &mRouterList);
+broadcastinit(PERIOD, &mRouterSet);
 
 // listen to channel CHANNEL
 //radiolisten(CHANNEL);	

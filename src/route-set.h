@@ -4,6 +4,12 @@
 #include "../platform/platform.h"
 #include "constants.h"
 
+/*
+*
+*  Defines what a router is
+*
+*/
+
 typedef struct
 {
 	uint16_t mRouterID;
@@ -13,11 +19,18 @@ typedef struct
 } Router;
 
 
+/*
+*
+*   Just a list of Routers (the router set)
+*
+*/
+
+
 typedef struct
 {
-	Router mRouterList[MAXROUTERS];
+	Router mRouterSet[MAXROUTERS];
 
-} RouterList;
+} RouterSet;
 
 
 #endif

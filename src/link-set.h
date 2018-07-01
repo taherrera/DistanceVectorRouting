@@ -5,22 +5,34 @@
 
 typedef struct
 {
-        uint16_t mAverage;
-        uint8_t mQuality;
+        unsigned short mAverage;
+        unsigned char mQuality;
 
 } Link;
 
 
+/*
+*
+*  unsigned char = 1 byte, unsigned short = 2 byte.
+*
+*/
 
 typedef struct
 {
-	uint8_t mRouterID;
-	uint16_t mLastLinkMargin;
+	unsigned char mRouterID;
+	unsigned short mLastLinkMargin;
 	Link mIncomingLink;
 	Link mOutgoingLink;
-	uint8_t mage;
+	unsigned char mage;
 
 } Neighbor;
+
+typedef struct
+{
+
+	Neighbor mNeighborList[MAXROUTERS];
+
+} LinkSet;
 
 
 void FirstOrderFilter(Neighbor *aNeighbor, uint16_t aNewLinkMargin);

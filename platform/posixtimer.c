@@ -20,12 +20,12 @@ void timerHandler( int sig, siginfo_t *si, void *uc )
 
 }
 
-int broadcastinit(uint16_t expireS, RouterList* aRouterList)
+int broadcastinit(uint16_t expireS, RouterSet* aRouterSet)
 {
     struct sigevent te;
     struct itimerspec its;
     struct sigaction sa;
-    timer_t timerID = ROUTER;
+    timer_t timerID = MYROUTER;
     int sigNo = SIGRTMIN;
 
     /* Set up signal handler. */
@@ -39,8 +39,8 @@ int broadcastinit(uint16_t expireS, RouterList* aRouterList)
     /* Set and enable alarm */
     te.sigev_notify = SIGEV_SIGNAL;
     te.sigev_signo = sigNo;
-    te.sigev_value.sival_ptr = aRouterList;
-    te.sigev_value.sival_int = ROUTER;
+    te.sigev_value.sival_ptr = aRouterSet;
+    te.sigev_value.sival_int = MYROUTER;
     timer_create(CLOCK_REALTIME, &te, &timerID);
 
     its.it_interval.tv_sec = expireS;

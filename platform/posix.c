@@ -62,6 +62,7 @@ void radiolisten(uint8_t channel)
  	    break;
 	}
 	    printf("%s: message = \"%s\"\n", inet_ntoa(addr.sin_addr), message);
+	    // to do change Roter and link set acordingly
     }
     
 

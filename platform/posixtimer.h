@@ -5,7 +5,7 @@
 #include "../src/route-set.h"
 
 
-int broadcastinit(int expireS, RouterList* aRouterList);
+int broadcastinit(int expireS, RouterSet* aRouterSet);
 
 void timerHandler( int sig, siginfo_t *si, void *uc );
 

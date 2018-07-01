@@ -16,14 +16,14 @@ void FirstOrderFilter(Neighbor * aNeighbor, uint16_t aNewLinkMargin)
 void SetQuality(Neighbor * aNeighbor)
 {
 	uint16_t linkdb = aNeighbor->mIncomingLink.mAverage;
-	if (linkdb > db20){
-		aNeighbor->mIncomingLink.mQuality = qualitydb20;
-	}else if (linkdb > db10){
-		aNeighbor->mIncomingLink.mQuality = qualitydb10;
-	}else if (linkdb >db2){
-		aNeighbor->mIncomingLink.mQuality =  qualitydb2;
+	if       (linkdb > DB_20){
+		aNeighbor->mIncomingLink.mQuality = QUALITY_DB20;
+	}else if (linkdb > DB_10){
+		aNeighbor->mIncomingLink.mQuality = QUALITY_DB10;
+	}else if (linkdb >DB_2)  {
+		aNeighbor->mIncomingLink.mQuality =  QUALITY_DB2;
 	}else{
-		aNeighbor->mIncomingLink.mQuality = qualitydb2m;
+		aNeighbor->mIncomingLink.mQuality = QUALITY_DB2M;
 	}
 
 

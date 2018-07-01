@@ -19,16 +19,25 @@
 
 #define CHANNEL 26
 
-#define PERIOD 5
 
-#define db20 20
-#define db10 10
-#define db2  2
+#define PERIOD 5  // in seconds
 
-#define qualitydb20 3
-#define qualitydb10 2
-#define qualitydb2  1
-#define qualitydb2m 0
+#define DB_INF 40
+#define DB_20 20
+#define DB_10 10
+#define DB_2  2
+#define DB_MINF 0
+
+
+#define QUALITY_DB20 3
+#define QUALITY_DB10 2
+#define QUALITY_DB2  1
+#define QUALITY_DB2M 0
+
+#define LINKCOST_DB20 1
+#define LINKCOST_DB10 2
+#define LINKCOST_DB2  4
+#define LINKCOST_DB2M 0
 
 
 /*
@@ -62,7 +71,7 @@
 *
 */
 
-#define ROUTER 0
+#define MYROUTER 0
 
 
 
