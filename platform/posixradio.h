@@ -17,8 +17,8 @@ void radiolisten(uint8_t channel);
 /*
 *
 *  Define radiosendbeacon abstraction.
-*  In this case we are going to use
-*  UDP in the loopback
+*  In this case we are going to use AF_INET DGRAM
+*  
 *
 */
 

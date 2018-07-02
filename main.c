@@ -6,7 +6,7 @@
 #include "src/constants.h"
 
 #ifdef POSIX
-#include "platform/posix.h"
+#include "platform/posixradio.h"
 #include "platform/posixtimer.h" 
 #endif
 
@@ -35,13 +35,14 @@ initLinkSet(  ROUTERSET[MYROUTER], ROUTERSET, &mLinkSet  );
 //test_filter()  #include "test/test-filter.c"
 
 // Broadcast every PERIOD miliseconds
-//broadcastinit(PERIOD, &mRouterSet);
+
+broadcastinit(PERIOD, &mRouterSet);
 
 // listen to channel CHANNEL
-//radiolisten(CHANNEL);	
+radiolisten(CHANNEL);	
 
 
-//while(1);;
+while(1);;
 
 return -1; // Always return error
 }
