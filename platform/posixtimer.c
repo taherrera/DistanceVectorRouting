@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <inttypes.h>
 #include "../src/route-set.h"
+#include "../src/ot-info.h"
 #include "../src/constants.h"
 #include "../src/link-set.h"
 #include "../src/mleroute64tlv.h"
@@ -19,8 +20,8 @@ static void timerHandler( int sig, siginfo_t *si, void *uc )
 	//printf("%p",(char *) si->si_value.sival_ptr);
 	//printf("%s","hola");
 
-	RouterSet *aRouterSet = (RouterSet *) si->si_value.sival_ptr;
-	char c = aRouterSet->mRouterSet[2].mRouterID + '0';
+	OpenThread *aot = (OpenThread *) si->si_value.sival_ptr;
+	char c = aot->mRouterSet.mRouterSet[2].mRouterID + '0';
 	write(1,&c,1);
 
 	//int *a; 
@@ -36,7 +37,7 @@ static void timerHandler( int sig, siginfo_t *si, void *uc )
 	
 }
 
-int broadcastinit(uint16_t expireS, RouterSet* aRouterSet)
+int broadcastinit(uint16_t expireS, OpenThread* aot)
 {
 	struct sigevent te;
 	struct itimerspec its;
@@ -55,7 +56,7 @@ int broadcastinit(uint16_t expireS, RouterSet* aRouterSet)
 	/* Set and enable alarm */
 	te.sigev_notify = SIGEV_SIGNAL;
 	te.sigev_signo = sigNo;
-	te.sigev_value.sival_ptr = aRouterSet;
+	te.sigev_value.sival_ptr = aot;
 	//te.sigev_value.sival_int = MYROUTER;
 	timer_create(CLOCK_REALTIME, &te, &timerID);
 
