@@ -6,16 +6,16 @@
 
 
 
-void initRouterSet(unsigned short myRouterID, const unsigned short RouterIDs[MAXROUTERS], RouterSet *aRouterSet)
+void initRouterSet(const unsigned short RouterIDs[MAXROUTERS], RouterSet *aRouterSet)
 {
 
 	int i;
 	for(i=0;i<MAXROUTERS;i++)
 	{
-		if (RouterIDs[i] == myRouterID) // its me !
+		if (RouterIDs[i] == MYROUTERID) // its me !
 		{
-			aRouterSet->mRouterSet[i].mRouterID = myRouterID;
-			aRouterSet->mRouterSet[i].mNextHop = myRouterID;
+			aRouterSet->mRouterSet[i].mRouterID = MYROUTERID;
+			aRouterSet->mRouterSet[i].mNextHop = MYROUTERID;
 			aRouterSet->mRouterSet[i].mRouteCost = 1;
 	
 			
@@ -30,25 +30,29 @@ void initRouterSet(unsigned short myRouterID, const unsigned short RouterIDs[MAX
 
 }
 
-void initLinkSet(unsigned short myRouterID, const unsigned short RouterIDs[MAXROUTERS], LinkSet *aLinkSet)
+void initLinkSet( const unsigned short RouterIDs[MAXROUTERS], LinkSet *aLinkSet)
 {
 
 	int i;
 	for(i=0;i<MAXROUTERS;i++)
 	{
-		if (RouterIDs[i] == myRouterID) // its ME !
+		if (RouterIDs[i] == MYROUTERID) // its ME !
 		{
-			aLinkSet->mNeighborList[i].mRouterID = myRouterID;
+			aLinkSet->mNeighborList[i].mRouterID = MYROUTERID;
 			aLinkSet->mNeighborList[i].mLastLinkMargin = DB_INF;
 			aLinkSet->mNeighborList[i].mage = 0x01;
 			aLinkSet->mNeighborList[i].mIncomingLink.mAverage = DB_INF; // infinite decibels
+			aLinkSet->mNeighborList[i].mIncomingLink.mQuality = QUALITY_DB20;
+			aLinkSet->mNeighborList[i].mOutgoingLink.mAverage = DB_INF;	
 			aLinkSet->mNeighborList[i].mOutgoingLink.mQuality = QUALITY_DB20; // best quality
 		}else{
 			aLinkSet->mNeighborList[i].mRouterID = RouterIDs[i];
 			aLinkSet->mNeighborList[i].mLastLinkMargin = 0;
 			aLinkSet->mNeighborList[i].mage = 0; // must be greater than 0 to be a neighbor
 			aLinkSet->mNeighborList[i].mIncomingLink.mAverage = DB_MINF;
-			aLinkSet->mNeighborList[i].mOutgoingLink.mQuality=QUALITY_DB2M;
+			aLinkSet->mNeighborList[i].mOutgoingLink.mAverage = DB_MINF;
+			aLinkSet->mNeighborList[i].mIncomingLink.mQuality = QUALITY_DB2M;
+			aLinkSet->mNeighborList[i].mOutgoingLink.mQuality = QUALITY_DB2M;
 		}
 
 	}

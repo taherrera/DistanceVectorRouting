@@ -5,6 +5,8 @@
 #include "src/ot-info.h"
 #include "src/init.h"
 #include "src/constants.h"
+#include "test/test-init.c"
+#include "src/mleroute64tlv.h"
 
 #ifdef POSIX
 #include "platform/posixradio.h"
@@ -18,9 +20,9 @@ int main()
 // Init the router set
 RouterSet mRouterSet;
 LinkSet mLinkSet;
-OpenThread *ot;
-ot->mLinkSet = mLinkSet;
-ot->mRouterSet = mRouterSet; 
+OpenThread ot;
+ot.mLinkSet = &mLinkSet;
+ot.mRouterSet = &mRouterSet;
 const uint16_t ROUTERSET[] = {	ROUTERID_0,
 				ROUTERID_1,
 				ROUTERID_2,
@@ -28,22 +30,25 @@ const uint16_t ROUTERSET[] = {	ROUTERID_0,
 				ROUTERID_4,
 				ROUTERID_5};
 
-initRouterSet(ROUTERSET[MYROUTER], ROUTERSET, &mRouterSet);
-initLinkSet(  ROUTERSET[MYROUTER], ROUTERSET, &mLinkSet  );
 
+initRouterSet(ROUTERSET, &mRouterSet);
+initLinkSet(ROUTERSET, &mLinkSet  );
 
 
 
 /* SOME TESTS */
-//printrouterset(&mRouterSet);  #include "test/test-init.c"
-//printlinkset(&mLinkSet); #include "test/test-init.c"
+printrouterset(&mRouterSet); 
+printlinkset(&mLinkSet);
 //test_filter()  #include "test/test-filter.c"
+
+unsigned char tlv[MAXROUTERS+4+1+1+1];
+createroutertlv(ot.mRouterSet, ot.mLinkSet, tlv);
 
 // Broadcast every PERIOD miliseconds
 //const char h[2] = {mRouterSet.mRouterSet[2].mRouterID+'0','\0'};
 //write(1,h,2);
 
-broadcastinit(PERIOD, &mRouterSet);
+//broadcastinit(PERIOD, &ot);
 
 // listen to channel CHANNEL
 //radiolisten(CHANNEL);	

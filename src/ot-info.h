@@ -6,8 +6,8 @@
 
 typedef struct
 {
-        LinkSet mLinkSet;
-        RouterSet mRouterSet;
+        LinkSet* mLinkSet;
+        RouterSet* mRouterSet;
 
 } OpenThread;
 

@@ -71,7 +71,7 @@
 *
 */
 
-#define MYROUTER 0
+#define MYROUTERID ROUTERID_0
  
 
 

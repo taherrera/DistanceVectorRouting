@@ -15,23 +15,19 @@
 static void timerHandler( int sig, siginfo_t *si, void *uc )
 {
 
-
-	//int node = si->si_value.sival_int;
-	//printf("%p",(char *) si->si_value.sival_ptr);
-	//printf("%s","hola");
-
 	OpenThread *aot = (OpenThread *) si->si_value.sival_ptr;
-	char c = aot->mRouterSet.mRouterSet[2].mRouterID + '0';
-	write(1,&c,1);
-
-	//int *a; 
-	//a = (int *) (si->si_value.sival_ptr);
 	
-	//int * h = *a+'0';
-        //write(1,h,1);
+	//char c = aot->mRouterSet->mRouterSet[3].mRouterID + '0';
+	//write(1,&c,1);
 
 
-	//write(1,"hola",5);
+
+
+	unsigned char tlv[MAXROUTERS+4+1+1+1];
+
+	createroutertlv(aot->mRouterSet, aot->mLinkSet, tlv);
+	//write(1,&tlv,MAXROUTERS+4+1+1+1);
+
 	//radiosendbeacon("WeNa!");
 	
 	
@@ -42,7 +38,7 @@ int broadcastinit(uint16_t expireS, OpenThread* aot)
 	struct sigevent te;
 	struct itimerspec its;
 	struct sigaction sa; 
-	timer_t timerID = MYROUTER;
+	timer_t timerID;
 	int sigNo = SIGRTMIN;
 
 	/* Set up signal handler. */
@@ -57,7 +53,6 @@ int broadcastinit(uint16_t expireS, OpenThread* aot)
 	te.sigev_notify = SIGEV_SIGNAL;
 	te.sigev_signo = sigNo;
 	te.sigev_value.sival_ptr = aot;
-	//te.sigev_value.sival_int = MYROUTER;
 	timer_create(CLOCK_REALTIME, &te, &timerID);
 
 	its.it_interval.tv_sec = expireS;

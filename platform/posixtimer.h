@@ -2,10 +2,10 @@
 #define POSIXTIMER_H
 
 #include "../platform/platform.h"
-#include "../src/route-set.h"
+#include "../src/ot-info.h"
 
 
-int broadcastinit(int expireS, RouterSet* aRouterSet);
+int broadcastinit(int expireS, OpenThread* aot);
 
 void timerHandler( int sig, siginfo_t *si, void *uc );
 
