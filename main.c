@@ -35,11 +35,13 @@ initLinkSet(  ROUTERSET[MYROUTER], ROUTERSET, &mLinkSet  );
 //test_filter()  #include "test/test-filter.c"
 
 // Broadcast every PERIOD miliseconds
+//const char h[2] = {mRouterSet.mRouterSet[2].mRouterID+'0','\0'};
+//write(1,h,2);
 
 broadcastinit(PERIOD, &mRouterSet);
 
 // listen to channel CHANNEL
-radiolisten(CHANNEL);	
+//radiolisten(CHANNEL);	
 
 
 while(1);;

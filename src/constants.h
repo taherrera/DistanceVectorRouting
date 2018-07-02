@@ -20,7 +20,7 @@
 #define CHANNEL 26
 
 
-#define PERIOD 5  // in seconds
+#define PERIOD 1 // in seconds
 
 #define DB_INF 40
 #define DB_20 20

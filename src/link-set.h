@@ -1,5 +1,5 @@
-//#ifndef NEIGHBOR_H
-//#define NEIGHBOR_H
+#ifndef NEIGHBOR_H
+#define NEIGHBOR_H
 #include "../platform/platform.h"
 #include "constants.h"
 
@@ -39,4 +39,4 @@ void FirstOrderFilter(Neighbor *aNeighbor, uint16_t aNewLinkMargin);
 
 void SetQuality(Neighbor * aNeighbor);
 
-//#endif
+#endif
