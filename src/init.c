@@ -17,10 +17,12 @@ void initRouterSet(unsigned short myRouterID, const unsigned short RouterIDs[MAX
 			aRouterSet->mRouterSet[i].mRouterID = myRouterID;
 			aRouterSet->mRouterSet[i].mNextHop = myRouterID;
 			aRouterSet->mRouterSet[i].mRouteCost = 1;
+	
 			
 		}else{
 			aRouterSet->mRouterSet[i].mRouterID = RouterIDs[i];
 			aRouterSet->mRouterSet[i].mNextHop = 0;
+		
 			aRouterSet->mRouterSet[i].mRouteCost = 0;
 		}
 		
@@ -38,7 +40,7 @@ void initLinkSet(unsigned short myRouterID, const unsigned short RouterIDs[MAXRO
 		{
 			aLinkSet->mNeighborList[i].mRouterID = myRouterID;
 			aLinkSet->mNeighborList[i].mLastLinkMargin = DB_INF;
-			aLinkSet->mNeighborList[i].mage = 1;
+			aLinkSet->mNeighborList[i].mage = 0x01;
 			aLinkSet->mNeighborList[i].mIncomingLink.mAverage = DB_INF; // infinite decibels
 			aLinkSet->mNeighborList[i].mOutgoingLink.mQuality = QUALITY_DB20; // best quality
 		}else{

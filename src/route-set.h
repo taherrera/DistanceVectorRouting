@@ -12,9 +12,9 @@
 
 typedef struct
 {
-	uint16_t mRouterID;
-	uint16_t mNextHop;
-	uint16_t mRouteCost;
+	unsigned char mRouterID;
+	unsigned char mNextHop;
+	unsigned char mRouteCost;
 
 } Router;
 

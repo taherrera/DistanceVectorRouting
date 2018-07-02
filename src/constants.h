@@ -47,12 +47,12 @@
 */
 
 
-#define ROUTERID_1 1
-#define ROUTERID_2 2
-#define ROUTERID_3 3
-#define ROUTERID_4 4
-#define ROUTERID_5 5
-#define ROUTERID_6 6
+#define ROUTERID_0 1
+#define ROUTERID_1 2
+#define ROUTERID_2 3
+#define ROUTERID_3 4
+#define ROUTERID_4 5
+#define ROUTERID_5 6
 
 
 
@@ -72,7 +72,7 @@
 */
 
 #define MYROUTER 0
-
+ 
 
 
 #endif

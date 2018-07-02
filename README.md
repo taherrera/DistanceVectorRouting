@@ -6,6 +6,8 @@ Proyecto de curso Pontificia Universidad Católica de Chile. Tópicos Avanzados 
 # How to use
 
 ´´´
-make posix
+make posix && sudo ./main
 ´´´
+
+
 
