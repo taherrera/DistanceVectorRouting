@@ -35,7 +35,7 @@ typedef struct
 } LinkSet;
 
 
-void FirstOrderFilter(Neighbor *aNeighbor, uint16_t aNewLinkMargin);
+void FirstOrderFilter(Neighbor *aNeighbor, unsigned short aNewLinkMargin);
 
 void SetQuality(Neighbor * aNeighbor);
 

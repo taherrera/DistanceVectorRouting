@@ -19,8 +19,10 @@ static void timerHandler( int sig, siginfo_t *si, void *uc )
 	//printf("%p",(char *) si->si_value.sival_ptr);
 	//printf("%s","hola");
 
-	write(1,(char *) si->si_value.sival_ptr,1);
-	write(1,"timerHandler\n",14);
+	RouterSet *aRouterSet = (RouterSet *) si->si_value.sival_ptr;
+	char c = aRouterSet->mRouterSet[2].mRouterID + '0';
+	write(1,&c,1);
+
 	//int *a; 
 	//a = (int *) (si->si_value.sival_ptr);
 	
@@ -41,8 +43,7 @@ int broadcastinit(uint16_t expireS, RouterSet* aRouterSet)
 	struct sigaction sa; 
 	timer_t timerID = MYROUTER;
 	int sigNo = SIGRTMIN;
-	static char a = 'k';
-	write(1,(char *) &a,1);
+
 	/* Set up signal handler. */
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = timerHandler;
@@ -54,7 +55,7 @@ int broadcastinit(uint16_t expireS, RouterSet* aRouterSet)
 	/* Set and enable alarm */
 	te.sigev_notify = SIGEV_SIGNAL;
 	te.sigev_signo = sigNo;
-	te.sigev_value.sival_ptr = &a;
+	te.sigev_value.sival_ptr = aRouterSet;
 	//te.sigev_value.sival_int = MYROUTER;
 	timer_create(CLOCK_REALTIME, &te, &timerID);
 

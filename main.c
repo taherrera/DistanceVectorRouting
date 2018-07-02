@@ -2,6 +2,7 @@
 #include "platform/platform.h"
 #include "src/link-set.h"
 #include "src/route-set.h"
+#include "src/ot-info.h"
 #include "src/init.h"
 #include "src/constants.h"
 
@@ -17,6 +18,9 @@ int main()
 // Init the router set
 RouterSet mRouterSet;
 LinkSet mLinkSet;
+OpenThread *ot;
+ot->mLinkSet = mLinkSet;
+ot->mRouterSet = mRouterSet; 
 const uint16_t ROUTERSET[] = {	ROUTERID_0,
 				ROUTERID_1,
 				ROUTERID_2,
@@ -26,6 +30,7 @@ const uint16_t ROUTERSET[] = {	ROUTERID_0,
 
 initRouterSet(ROUTERSET[MYROUTER], ROUTERSET, &mRouterSet);
 initLinkSet(  ROUTERSET[MYROUTER], ROUTERSET, &mLinkSet  );
+
 
 
 
