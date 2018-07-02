@@ -41,8 +41,16 @@ printrouterset(&mRouterSet);
 printlinkset(&mLinkSet);
 //test_filter()  #include "test/test-filter.c"
 
-unsigned char tlv[MAXROUTERS+4+1+1+1];
+unsigned char tlv[MAXROUTERS+4+1+1+1] = {0};
+
+int i;
+//for (i=0;i<MAXROUTERS+4+1+1+1;i++){
+//printf("%u\n",tlv[i]);}
+
 createroutertlv(ot.mRouterSet, ot.mLinkSet, tlv);
+
+for (i=0;i<MAXROUTERS+4+1+1+1;i++){
+printf("%u\n",tlv[i]);}
 
 // Broadcast every PERIOD miliseconds
 //const char h[2] = {mRouterSet.mRouterSet[2].mRouterID+'0','\0'};
@@ -54,7 +62,7 @@ createroutertlv(ot.mRouterSet, ot.mLinkSet, tlv);
 //radiolisten(CHANNEL);	
 
 
-while(1);;
+
 
 return -1; // Always return error
 }
