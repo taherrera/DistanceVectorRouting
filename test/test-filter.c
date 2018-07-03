@@ -1,4 +1,6 @@
 
+/* This script tests the first order filter */
+
 void test_filter(void)
 {
 	Neighbor node_1;
