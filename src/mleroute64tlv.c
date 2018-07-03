@@ -31,30 +31,33 @@ void minimizeroute(RouterSet* aRouterSet, LinkSet* aLinkSet, unsigned int incomi
 	unsigned int potentiallinkcostincoming = aLinkSet->mNeighborList[incomingrouter].mIncomingLink.mLinkCost;
 	unsigned int potentiallinkcostoutgoing = aLinkSet->mNeighborList[incomingrouter].mOutgoingLink.mLinkCost;
 	unsigned int potentiallinkcost = max(potentiallinkcostincoming,potentiallinkcostoutgoing);
-
-	if ((potentiallinkcostincoming == LINKCOST_DB2M) || (potentiallinkcostoutgoing == LINKCOST_DB2M)) 
-	{// then "incomingrouter" is not a valid neighbor and cant send to it
-		aLinkSet->mNeighborList[incomingrouter].mage = 0;
+	if ((destrouter != MYROUTERID)&&(incomingrouter!=MYROUTERID)){
+		if ((potentiallinkcostincoming == LINKCOST_DB2M) || (potentiallinkcostoutgoing == LINKCOST_DB2M)) 
+		{// then "incomingrouter" is not a valid neighbor and cant send to it
+			aLinkSet->mNeighborList[incomingrouter].mage = 0;
 		
-	}else if((actuallinkcostincoming == LINKCOST_DB2M) || (actuallinkcostoutgoing == LINKCOST_DB2M))
-	{// I cant get to "destouter" directly, but I can get trough "incomingrouter" 
-		aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
-		aRouterSet->mRouterSet[destrouter].mRouteCost = routecost; // the routing cost is the cost reported by incoming router
-	}else if ((actualroutecost + actuallinkcost >= potentiallinkcost + routecost) && (incomingrouter==destrouter))  
-	// If path is best and if the destination==nexthop or if dest=nexthop and the age of the router was cero
-	{
-		aRouterSet->mRouterSet[destrouter].mRouteCost = routecost;
-		aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
-	}else if((actualroutecost==0)&&(actualnexthoprouter!=destrouter))
-	{ // now the best path is through a router, so if actualroutecost==0 then there is no route
-		aRouterSet->mRouterSet[destrouter].mRouteCost = routecost;
-		aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
-	
-	}else if (actualroutecost + actuallinkcost > potentiallinkcost + routecost){
-		aRouterSet->mRouterSet[destrouter].mRouteCost = routecost;
-		aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
+		}else if((actuallinkcostincoming == LINKCOST_DB2M) || (actuallinkcostoutgoing == LINKCOST_DB2M))
+		{// I cant get to "destouter" through "actualnexthop", but I can get trough "incomingrouter" 
+			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
+			aRouterSet->mRouterSet[destrouter].mRouteCost = routecost; // the routing cost is the cost reported by incoming router
+			aLinkSet->mNeighborList[incomingrouter].mage = 1;
+		}else if((actualroutecost==0)&&(incomingrouter=destrouter)&&(potentiallinkcost <=actualroutecost + actuallinkcost))
+		{ // best path is trough incoming router
+			aRouterSet->mRouterSet[destrouter].mRouteCost = 0;
+			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
+			aLinkSet->mNeighborList[incomingrouter].mage = 1;
+		}else if ((incomingrouter!=destrouter)&&(actualroutecost==0))  
+		// If path is best and if the destination==nexthop or if dest=nexthop and the age of the router was cero
+		{
+			aRouterSet->mRouterSet[destrouter].mRouteCost = routecost;
+			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
+			aLinkSet->mNeighborList[incomingrouter].mage = 1;
+		}else if (actualroutecost + actuallinkcost > potentiallinkcost + routecost){
+			aRouterSet->mRouterSet[destrouter].mRouteCost = routecost;
+			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
+			aLinkSet->mNeighborList[incomingrouter].mage = 1;
+		}
 	}
-	
 }
 
 
@@ -134,14 +137,14 @@ void readroutertlvandchangerouting(RouterSet *aRouterSet, LinkSet *aLinkSet, cha
 			{
 				incomingrouter = i;
 				// set all incoming variables in link set
-				aLinkSet->mNeighborList[i].mage = 1;
+				//aLinkSet->mNeighborList[i].mage = 1;
 				#ifdef POSIX
 				unsigned char RSSITABLE[6][6] = {	{40,0 ,0 , 0, 0, 25},   // 6 rows , 6 columns
 									{0 ,40,30,50, 0, 0},
 									{0 ,30,40, 0, 0, 25},
-									{0 ,50, 0,40,5, 0},
+									{0 ,50,0 ,40, 5, 0},
 									{0 ,0 ,0 , 5,40, 0},
-									{25 ,0 ,25 , 0, 0,40}};
+									{25,0 ,25, 0, 0,40}};
 				aLinkSet->mNeighborList[i].mLastLinkMargin = RSSITABLE[i][MYROUTERID];
 				FirstOrderFilter(&(aLinkSet->mNeighborList[i]),RSSITABLE[i][MYROUTERID]);
 				#endif
@@ -156,8 +159,8 @@ void readroutertlvandchangerouting(RouterSet *aRouterSet, LinkSet *aLinkSet, cha
 		unsigned char incomingquality;
 		for (i=0;i<numrouters;i++)
 		{
-			if ((i == MYROUTERID) && routerinfo[i] != 0x01) // its info on me and not looping back
-			{
+			if ((i == MYROUTERID) && (routerinfo[i] != 0x01)) // its info on me and not looping back
+			{	printf("Got Info on me from Bcast from Router: %u, INFO: %u\n,",incomingrouter,routerinfo[i]);
 				outgoingquality = (0b00110000 & routerinfo[i]) >> 4; // in for him is out for me
 				aLinkSet->mNeighborList[incomingrouter].mOutgoingLink.mQuality = outgoingquality; 
 				SetQuality(&(aLinkSet->mNeighborList[incomingrouter]));
@@ -178,7 +181,7 @@ void readroutertlvandchangerouting(RouterSet *aRouterSet, LinkSet *aLinkSet, cha
 				routecost = (routerinfo[i]&0b00001111);
 
 				
-				if (routecost != 0x00){// then "i" is reachable by "incomingrouter"
+				if ((routecost != 0x00)||(incomingrouter == i)){// then "i" is reachable by "incomingrouter" or "incomingrouter" is "i"
 
 					// find out if min to router "i" is trough "incomingrouter"
 					minimizeroute(aRouterSet, aLinkSet,incomingrouter,i,routecost);
@@ -187,7 +190,7 @@ void readroutertlvandchangerouting(RouterSet *aRouterSet, LinkSet *aLinkSet, cha
 		}
 		
 	}
-	printrouterset(aRouterSet);
-	printlinkset(aLinkSet);
+	//printrouterset(aRouterSet);
+	//printlinkset(aLinkSet);
 }
 
