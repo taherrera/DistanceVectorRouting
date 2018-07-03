@@ -16,17 +16,13 @@ static void timerHandler( int sig, siginfo_t *si, void *uc )
 {
 
 	OpenThread *aot = (OpenThread *) si->si_value.sival_ptr;
-	
-	//char c = aot->mRouterSet->mRouterSet[3].mRouterID + '0';
-	//write(1,&c,1);
-
-
 	unsigned char tlv[MAXROUTERS+4+1+1+1] = {0};
 
+
+	/* Creates the TLV */
 	createroutertlv(aot->mRouterSet, aot->mLinkSet, tlv);
 
-	//write(1,&tlv,MAXROUTERS+4+1+1+1);
-
+	/* Sends the TVL */
 	radiosendbeacon(tlv);
 	
 	
