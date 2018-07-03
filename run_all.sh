@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 gnome-terminal --geometry=80x16 -e 'sh -c "make posix && sudo ./main"'
 sleep 3
 sed '0,/ROUTERID_0/! s/ROUTERID_0/ROUTERID_1/' src/constants.h > src/constantsx.h
