@@ -7,6 +7,7 @@ typedef struct
 {
         unsigned short mAverage;
         unsigned char mQuality;
+	unsigned char mLinkCost;
 
 } Link;
 
@@ -34,9 +35,39 @@ typedef struct
 
 } LinkSet;
 
+/*
+*
+*  sets mIncomingLink.mAverage
+*
+*/
+
 
 void FirstOrderFilter(Neighbor *aNeighbor, unsigned short aNewLinkMargin);
 
+/*
+*
+*  sets mIncomingLink.mQuality
+*
+*/
+
+
 void SetQuality(Neighbor * aNeighbor);
+
+/*
+*
+*  Sets mOutgoingLink.mLinkCost
+*
+*/
+
+void setCost(Neighbor * aNeighbor);
+
+/*
+*
+* Transforms a quality to a cost
+*
+*/
+
+unsigned char QualityToCost(unsigned char aQuality);
+
 
 #endif

@@ -21,14 +21,13 @@ static void timerHandler( int sig, siginfo_t *si, void *uc )
 	//write(1,&c,1);
 
 
-
-
-	unsigned char tlv[MAXROUTERS+4+1+1+1];
+	unsigned char tlv[MAXROUTERS+4+1+1+1] = {0};
 
 	createroutertlv(aot->mRouterSet, aot->mLinkSet, tlv);
+
 	//write(1,&tlv,MAXROUTERS+4+1+1+1);
 
-	//radiosendbeacon("WeNa!");
+	radiosendbeacon(tlv);
 	
 	
 }

@@ -45,6 +45,8 @@ void initLinkSet( const unsigned short RouterIDs[MAXROUTERS], LinkSet *aLinkSet)
 			aLinkSet->mNeighborList[i].mIncomingLink.mQuality = QUALITY_DB20;
 			aLinkSet->mNeighborList[i].mOutgoingLink.mAverage = DB_INF;	
 			aLinkSet->mNeighborList[i].mOutgoingLink.mQuality = QUALITY_DB20; // best quality
+			aLinkSet->mNeighborList[i].mOutgoingLink.mLinkCost= LINKCOST_DB20; // best COST
+			
 		}else{
 			aLinkSet->mNeighborList[i].mRouterID = RouterIDs[i];
 			aLinkSet->mNeighborList[i].mLastLinkMargin = 0;
@@ -53,6 +55,7 @@ void initLinkSet( const unsigned short RouterIDs[MAXROUTERS], LinkSet *aLinkSet)
 			aLinkSet->mNeighborList[i].mOutgoingLink.mAverage = DB_MINF;
 			aLinkSet->mNeighborList[i].mIncomingLink.mQuality = QUALITY_DB2M;
 			aLinkSet->mNeighborList[i].mOutgoingLink.mQuality = QUALITY_DB2M;
+			aLinkSet->mNeighborList[i].mOutgoingLink.mLinkCost= LINKCOST_DB2M; // worst COST
 		}
 
 	}

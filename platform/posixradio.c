@@ -1,13 +1,15 @@
 
 #include "platform.h"
 #include "posixradio.h"
+#include "../src/ot-info.h"
 #include "../src/constants.h"
+#include "../src/mleroute64tlv.h"
 
 #define MAXBUFFER 1027
 #define IPV4ADDR "239.0.0.1"
 #define PORT 1000
 
-void radiolisten(uint8_t channel)
+void radiolisten(uint8_t channel, OpenThread * aot)
 {
 
 	struct sockaddr_in addr;
@@ -53,32 +55,27 @@ void radiolisten(uint8_t channel)
 	{
 		cnt = recvfrom(sock, message, sizeof(message), 0, 
 		(struct sockaddr *) &addr, &addrlen);
-		/*
-		if (cnt < 0) 
-		{	
-			perror("recvfrom");
-			//exit(1);
-		}else if (cnt == 0)
-		{
-			break;
-		}*/
+
 		if (cnt>0)
 		{
-			write(1,message,5);
+			// Function reads if it is type 9 and changes the routing acordingly
+			unsigned char RSSI = 10; //(received signal strenght)
+			
+			readroutertlvandchangerouting(aot->mRouterSet, aot->mLinkSet, message, RSSI);
+			
 		}
-		// to do change Router and link set acordingly
 	}
 	    
 
 }
 
 
-void radiosendbeacon(char *aPayLoad)
+void radiosendbeacon(unsigned char *aPayLoad)
 {
 	struct sockaddr_in addr;
 	int sock, cnt;
 	socklen_t addrlen;
-	char message[50];
+
 
 	/* set up socket, DOMAIN IPV4, type datagram (connectionless, unreliable)*/
 	sock = socket(AF_INET, SOCK_DGRAM, 0);
@@ -101,8 +98,10 @@ void radiosendbeacon(char *aPayLoad)
 
 	/* send */
 	addr.sin_addr.s_addr = inet_addr(IPV4ADDR);
-	cnt = sendto(sock, aPayLoad, sizeof(message),
+	cnt = sendto(sock, aPayLoad, MAXROUTERS+4+1+1+1,
 			0, (struct sockaddr *) &addr, addrlen);
+
+	
 	if (cnt < 0) {
 		perror("sendto");
 		exit(1);
