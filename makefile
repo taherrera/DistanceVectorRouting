@@ -8,10 +8,8 @@ POSIXDEPS=platform/posixradio.h platform/posixtimer.h src/link-set.h src/route-s
 %.o: %.c $(POSIXDEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-
 posix: $(POSIXOBJS)
 	$(CC) $(CFLAGS) $(POSIXOBJS) -o main -lrt
-
 
 clean:
 	-rm -f $(POSIXOBJS)
