@@ -60,15 +60,10 @@ void radiolisten(uint8_t channel, OpenThread * aot)
 		{
 			// Function reads if it is type 9 and changes the routing acordingly
 			unsigned char RSSI = 10; //(received signal strenght)
-			
 			readroutertlvandchangerouting(aot->mRouterSet, aot->mLinkSet, message, RSSI);
-			
 		}
 	}
-	    
-
 }
-
 
 void radiosendbeacon(unsigned char *aPayLoad)
 {

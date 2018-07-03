@@ -17,7 +17,7 @@ void radiolisten(uint8_t channel, OpenThread * aot);
 /*
 *
 *  Define radiosendbeacon abstraction. This function sends aPayload to a multicast group
-*  In this case we are going to use AF_INET DGRAM
+*  In this case we are going to use AF_INET DGRAM (IPV4)
 *  
 *
 */
