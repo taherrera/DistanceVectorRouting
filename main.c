@@ -26,7 +26,7 @@
 int main()
 {
 
-// Init the router set
+// Init the sets
 RouterSet mRouterSet;
 LinkSet mLinkSet;
 OpenThread ot;
@@ -45,27 +45,10 @@ initLinkSet(ROUTERSET, &mLinkSet  );
 
 
 
-/* SOME TESTS */
-//printrouterset(&mRouterSet); 
-//printlinkset(&mLinkSet);
-//test_filter()  #include "test/test-filter.c"
-
-//unsigned char tlv[MAXROUTERS+4+1+1+1] = {0};
-
-
-//createroutertlv(ot.mRouterSet, ot.mLinkSet, tlv);
-
-//int i;
-//for (i=0;i<MAXROUTERS+4+1+1+1;i++){
-//printf("%u\n",tlv[i]);}
-
-// Broadcast every PERIOD miliseconds
-//const char h[2] = {mRouterSet.mRouterSet[2].mRouterID+'0','\0'};
-//write(1,h,2);
-
+/* Start a broadcast timer */
 broadcastinit(PERIOD, &ot);
 
-// listen to channel CHANNEL
+/* Listen to channel (forever) */
 radiolisten(CHANNEL, &ot);	
 
 
