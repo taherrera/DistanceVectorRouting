@@ -40,6 +40,7 @@ void minimizeroute(RouterSet* aRouterSet, LinkSet* aLinkSet, unsigned int incomi
 		
 		}else if((actuallinkcostincoming == LINKCOST_DB2M) || (actuallinkcostoutgoing == LINKCOST_DB2M))
 		{// I cant get to "destouter" through "actualnexthop", but I can get trough "incomingrouter" 
+			
 			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
 			if (destrouter == incomingrouter){
 			// the routing cost is the cost reported by incoming router + the link cost
@@ -48,24 +49,27 @@ void minimizeroute(RouterSet* aRouterSet, LinkSet* aLinkSet, unsigned int incomi
 				aRouterSet->mRouterSet[destrouter].mRouteCost = routecost + potentiallinkcost;
 			}
 			aLinkSet->mNeighborList[incomingrouter].mage = 1;
-		}else if( (actualroutecost==0)&&(incomingrouter==destrouter)&&(potentiallinkcost <= actuallinkcost + actualroutecost) )
+		}else if( (actualroutecost==0)&&(incomingrouter==destrouter) )
 		{ // best path is trough incoming router
+			
 			aRouterSet->mRouterSet[destrouter].mRouteCost = potentiallinkcost;
 			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
 			aLinkSet->mNeighborList[incomingrouter].mage = 1;
-		}else if ((incomingrouter!=destrouter)&&(actualroutecost==0))  
-		// If path is best and if the destination==nexthop or if dest=nexthop and the age of the router was cero
-		{	;
+		}else if (actualroutecost==0)  
+		// If path does not exist, use this one
+		{	
 			aRouterSet->mRouterSet[destrouter].mRouteCost = routecost + potentiallinkcost;
 			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
 			aLinkSet->mNeighborList[incomingrouter].mage = 1;
-		}else if (actualroutecost - actuallinkcost > routecost-potentiallinkcost){
+		}else if ((actualroutecost - actuallinkcost > routecost-potentiallinkcost)&& (incomingrouter!=destrouter)){
 			
-			if (incomingrouter==destrouter){
-				aRouterSet->mRouterSet[destrouter].mRouteCost = potentiallinkcost;
-			}else{
-				aRouterSet->mRouterSet[destrouter].mRouteCost = routecost + potentiallinkcost;
-			}
+			aRouterSet->mRouterSet[destrouter].mRouteCost = potentiallinkcost;
+			aRouterSet->mRouterSet[destrouter].mRouteCost = routecost + potentiallinkcost;
+			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
+			aLinkSet->mNeighborList[incomingrouter].mage = 1;
+		}else if ((actualroutecost > potentiallinkcost) && (incomingrouter==destrouter)){
+			
+			aRouterSet->mRouterSet[destrouter].mRouteCost = potentiallinkcost;
 			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
 			aLinkSet->mNeighborList[incomingrouter].mage = 1;
 		}
