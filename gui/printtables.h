@@ -7,10 +7,9 @@
 
 /*
 *
-*  These functions print the tables
+*  These functions print the tables, need more work on formating
 *
 */
-
 
 
 void printrouterset(RouterSet *aRouterSet);

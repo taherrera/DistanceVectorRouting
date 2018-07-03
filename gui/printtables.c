@@ -2,6 +2,7 @@
 #include "../src/link-set.h"
 #include "../src/constants.h"
 
+
 void printrouterset(RouterSet *aRouterSet)
 {
 
