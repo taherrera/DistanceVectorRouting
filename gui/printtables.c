@@ -20,7 +20,7 @@ void printrouterset(RouterSet *aRouterSet)
 		nexthopid = aRouterSet->mRouterSet[i].mNextHop;
 		routecost = aRouterSet->mRouterSet[i].mRouteCost;
 
-		printf("ID = %d, NextHop = %u, RouteCost = %d\n",routerid, nexthopid, routecost);
+		printf("ID = %2d, NextHop = %2u, RouteCost = %3d\n",routerid, nexthopid, routecost);
 		
 	}
 	
@@ -54,7 +54,7 @@ void printlinkset(LinkSet *aLinkSet)
 		age = aLinkSet->mNeighborList[i].mage;
 		
 
-		printf("%u  |  %u    |  %u  |  %u   |  %u   |  %u   |  %u  |  %u ",
+		printf("%1u  |  %3u  |  %3u  | %3u  |  %1u   |   %1u   |  %1u   |  %1u ",
 			routerid, inlinkmar,inlinkmaravrg, inlinkqual ,inlinkcost, outlinkqual , outlinkcost, age);
 		printf("\n");
 	}
