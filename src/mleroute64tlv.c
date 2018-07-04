@@ -167,12 +167,12 @@ void readroutertlvandchangerouting(RouterSet *aRouterSet, LinkSet *aLinkSet, cha
 				// set all incoming variables in link set
 				aLinkSet->mNeighborList[i].mage = 1;
 				#ifdef POSIX
-				unsigned char RSSITABLE[6][6] = {	{40,25, 0, 0, 0, 0},   // 6 rows , 6 columns
-									{25,40,25, 0, 0, 0},
-									{ 0,25,40,25, 0, 0},
-									{ 0, 0,25,40,25, 0},
-									{ 0, 0, 0,25,40,25},
-									{ 0, 0, 0, 0,25,40}};
+				unsigned char RSSITABLE[6][6] = {	{99,25, 0, 0, 0, 0},   // 6 rows , 6 columns
+									{25,99,25, 0, 0, 0},
+									{ 0,25,99,25, 0, 0},
+									{ 0, 0,25,99,25, 0},
+									{ 0, 0, 0,25,99,25},
+									{ 0, 0, 0, 0,25,99}};
 				aLinkSet->mNeighborList[i].mLastLinkMargin = RSSITABLE[i][MYROUTERID];
 				FirstOrderFilter(&(aLinkSet->mNeighborList[i]),RSSITABLE[i][MYROUTERID]);
 				#endif
