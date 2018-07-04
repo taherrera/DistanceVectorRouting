@@ -2,6 +2,7 @@
 #define NEIGHBOR_H
 #include "../platform/platform.h"
 #include "constants.h"
+#include "route-set.h"
 
 typedef struct
 {
@@ -69,5 +70,12 @@ void setCost(Neighbor * aNeighbor);
 
 unsigned char QualityToCost(unsigned char aQuality);
 
+/*
+*
+*  Handles the timeout of the link set
+*
+*/
+
+void ageTimeOut(RouterSet *aRouterSet, LinkSet *aLinkSet);
 
 #endif

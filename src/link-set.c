@@ -71,3 +71,41 @@ unsigned char QualityToCost(unsigned char aQuality)
 	}
 
 }
+
+
+void ageTimeOut(RouterSet *aRouterSet,LinkSet *aLinkSet)
+{
+
+	unsigned int routerid;
+	unsigned char aage;
+	for (routerid=0;routerid<MAXROUTERS;routerid++)
+	{
+		aage = aLinkSet->mNeighborList[routerid].mage;
+		if (aage > 0)
+		{
+			aLinkSet->mNeighborList[routerid].mage += 1;
+		}
+
+		if (aage >= AGETIMEOUT) // timedout link
+		{	// reset to original values
+			aLinkSet->mNeighborList[routerid].mLastLinkMargin = 0;
+			aLinkSet->mNeighborList[routerid].mage = 0;
+			aLinkSet->mNeighborList[routerid].mIncomingLink.mAverage = DB_MINF;
+			aLinkSet->mNeighborList[routerid].mOutgoingLink.mAverage = DB_MINF;
+			aLinkSet->mNeighborList[routerid].mIncomingLink.mQuality = QUALITY_DB2M;
+			aLinkSet->mNeighborList[routerid].mOutgoingLink.mQuality = QUALITY_DB2M;
+			aLinkSet->mNeighborList[routerid].mOutgoingLink.mLinkCost= LINKCOST_DB2M;
+
+			// remove this router from any nexthop router entry
+			int i;
+			for(i=0;i<MAXROUTERS;i++)
+			{
+				if (aRouterSet->mRouterSet[i].mNextHop == routerid)
+				{
+					aRouterSet->mRouterSet[i].mNextHop = 0;
+					aRouterSet->mRouterSet[i].mRouteCost = 0;
+				}
+			}
+		}
+	}
+}

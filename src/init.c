@@ -22,7 +22,6 @@ void initRouterSet(const unsigned short RouterIDs[MAXROUTERS], RouterSet *aRoute
 		}else{
 			aRouterSet->mRouterSet[i].mRouterID = RouterIDs[i];
 			aRouterSet->mRouterSet[i].mNextHop = 0;
-		
 			aRouterSet->mRouterSet[i].mRouteCost = 0;
 		}
 		

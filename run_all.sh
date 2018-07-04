@@ -31,3 +31,6 @@ sleep 1
 sed '0,/ROUTERID_5/! s/ROUTERID_5/ROUTERID_0/' src/constants.h  > src/constantsx.h
 mv src/constantsx.h src/constants.h
 
+sudo chmod a+rwx *
+sudo chmod a+rwx */*
+

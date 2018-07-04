@@ -19,6 +19,7 @@
 
 #define CHANNEL 26
 
+#define AGETIMEOUT 5
 
 #define PERIOD 10 // in seconds
 

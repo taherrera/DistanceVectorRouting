@@ -15,15 +15,20 @@
 static void timerHandler( int sig, siginfo_t *si, void *uc )
 {
 
+	
+
 	OpenThread *aot = (OpenThread *) si->si_value.sival_ptr;
 	unsigned char tlv[MAXROUTERS+4+1+1+1] = {0};
 
+	/* Adds +1 to age of links and handles AGETIMEOUT*/
+	ageTimeOut(aot->mRouterSet, aot->mLinkSet);
 
 	/* Creates the TLV */
 	createroutertlv(aot->mRouterSet, aot->mLinkSet, tlv);
 
 	/* Sends the TVL */
 	radiosendbeacon(tlv);
+
 	
 	
 }
