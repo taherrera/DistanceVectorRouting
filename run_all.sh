@@ -33,4 +33,4 @@ mv src/constantsx.h src/constants.h
 
 sudo chmod a+rwx *
 sudo chmod a+rwx */*
-
+sudo make clean

@@ -33,7 +33,7 @@ void minimizeroute(RouterSet* aRouterSet, LinkSet* aLinkSet, unsigned int incomi
 	unsigned int potentiallinkcostoutgoing = aLinkSet->mNeighborList[incomingrouter].mOutgoingLink.mLinkCost;
 	unsigned int potentiallinkcost = max(potentiallinkcostincoming,potentiallinkcostoutgoing);
 
-	if ( (destrouter != MYROUTERID)&&(incomingrouter!=MYROUTERID) ){
+	if ( (destrouter != MYROUTERID)&&(incomingrouter!=MYROUTERID) ){ // if info not on me and not me looping back
 		if ((potentiallinkcostincoming == LINKCOST_DB2M) || (potentiallinkcostoutgoing == LINKCOST_DB2M)) 
 		{// then "incomingrouter" is not a valid neighbor and cant send to it
 			aLinkSet->mNeighborList[incomingrouter].mage = 0;
@@ -43,9 +43,10 @@ void minimizeroute(RouterSet* aRouterSet, LinkSet* aLinkSet, unsigned int incomi
 			
 			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
 			if (destrouter == incomingrouter){
-			// the routing cost is the cost reported by incoming router + the link cost
+			// the routing cost is the link cost
 				aRouterSet->mRouterSet[destrouter].mRouteCost = potentiallinkcost;
 			}else{
+			// the routing cost is the route cost plus link cost
 				aRouterSet->mRouterSet[destrouter].mRouteCost = routecost + potentiallinkcost;
 			}
 			aLinkSet->mNeighborList[incomingrouter].mage = 1;
@@ -61,7 +62,7 @@ void minimizeroute(RouterSet* aRouterSet, LinkSet* aLinkSet, unsigned int incomi
 			aRouterSet->mRouterSet[destrouter].mRouteCost = routecost + potentiallinkcost;
 			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
 			aLinkSet->mNeighborList[incomingrouter].mage = 1;
-		}else if ((actualroutecost - actuallinkcost > routecost-potentiallinkcost)&& (incomingrouter!=destrouter)){
+		}else if ((actualroutecost - actuallinkcost > routecost-potentiallinkcost) && (incomingrouter!=destrouter)){
 			
 			aRouterSet->mRouterSet[destrouter].mRouteCost = potentiallinkcost;
 			aRouterSet->mRouterSet[destrouter].mRouteCost = routecost + potentiallinkcost;
@@ -72,6 +73,16 @@ void minimizeroute(RouterSet* aRouterSet, LinkSet* aLinkSet, unsigned int incomi
 			aRouterSet->mRouterSet[destrouter].mRouteCost = potentiallinkcost;
 			aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
 			aLinkSet->mNeighborList[incomingrouter].mage = 1;
+		}else if(incomingrouter == actualnexthoprouter){ // new update the cost reported by the path
+			if(destrouter!=incomingrouter){
+				aRouterSet->mRouterSet[destrouter].mRouteCost = routecost + potentiallinkcost;
+				aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
+				aLinkSet->mNeighborList[incomingrouter].mage = 1;
+			}else if(destrouter==incomingrouter){
+				aRouterSet->mRouterSet[destrouter].mRouteCost = potentiallinkcost;
+				aRouterSet->mRouterSet[destrouter].mNextHop = incomingrouter;
+				aLinkSet->mNeighborList[incomingrouter].mage = 1;
+			}
 		}
 		
 	}
@@ -156,12 +167,12 @@ void readroutertlvandchangerouting(RouterSet *aRouterSet, LinkSet *aLinkSet, cha
 				// set all incoming variables in link set
 				aLinkSet->mNeighborList[i].mage = 1;
 				#ifdef POSIX
-				unsigned char RSSITABLE[6][6] = {	{40,0 ,50, 0, 0, 23},   // 6 rows , 6 columns
-									{0 ,40,30, 0, 0, 0},
-									{50,30,40,60,90,55},
-									{0 ,0 ,60,40, 0, 0},
-									{0 ,0 ,90, 0,40, 0},
-									{23 ,0 ,55, 0, 0,40}};
+				unsigned char RSSITABLE[6][6] = {	{40,25, 0, 0, 0, 0},   // 6 rows , 6 columns
+									{25,40,25, 0, 0, 0},
+									{ 0,25,40,25, 0, 0},
+									{ 0, 0,25,40,25, 0},
+									{ 0, 0, 0,25,40,25},
+									{ 0, 0, 0, 0,25,40}};
 				aLinkSet->mNeighborList[i].mLastLinkMargin = RSSITABLE[i][MYROUTERID];
 				FirstOrderFilter(&(aLinkSet->mNeighborList[i]),RSSITABLE[i][MYROUTERID]);
 				#endif

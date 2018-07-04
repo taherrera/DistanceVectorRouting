@@ -95,6 +95,7 @@ void ageTimeOut(RouterSet *aRouterSet,LinkSet *aLinkSet)
 			aLinkSet->mNeighborList[routerid].mIncomingLink.mQuality = QUALITY_DB2M;
 			aLinkSet->mNeighborList[routerid].mOutgoingLink.mQuality = QUALITY_DB2M;
 			aLinkSet->mNeighborList[routerid].mOutgoingLink.mLinkCost= LINKCOST_DB2M;
+			aLinkSet->mNeighborList[routerid].mIncomingLink.mLinkCost= LINKCOST_DB2M;
 
 			// remove this router from any nexthop router entry
 			int i;
